@@ -21,14 +21,23 @@ RSpec.describe "user's discover page", type: :feature do
         end
       end
 
-      it "displays a button to 'Discover Top Rated Movies'" do
+      it "displays a button to 'Discover Top Rated Movies' that links to user_movies_path" do
         expect(page).to have_button("Discover Top Rated Movies")
+
+        click_button("Discover Top Rated Movies")
+
+        expect(current_path).to eq(user_movies_path(@user1.id))
       end
 
-      it "displays a search field to 'Find Movies'" do
+      it "displays a search field to 'Find Movies' that links to user_movies_path" do
         within("#movie-search") do
           expect(page).to have_field("Movie Title:")
           expect(page).to have_button("Find Movies")
+
+          fill_in "Movie Title:", with: "The Matrix"
+          click_button("Find Movies")
+
+          expect(current_path).to eq(user_movies_path(@user1.id))
         end
       end
     end
